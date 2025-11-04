@@ -31,12 +31,13 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 const FormSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
   email: z.string().email(),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters.",
   }),
-  first_name: z.string(),
-  last_name: z.string(),
   // image: z.string(),
   image: z
     .instanceof(File, { message: "Please select an image file." })
@@ -49,8 +50,7 @@ const FormSchema = z.object({
       message: "Please upload a valid image file (JPEG, PNG, or WebP).",
     })
     .optional(),
-  image_url: z.string(),
-  phone_no: z.string().min(11).max(11),
+  picture: z.string(),
 });
 
 export default function RegisterPageView() {
@@ -58,13 +58,11 @@ export default function RegisterPageView() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
-      first_name: "",
-      last_name: "",
       image: undefined,
-      image_url: "",
-      phone_no: "",
+      picture: "",
     },
     mode: "all",
   });
@@ -75,12 +73,14 @@ export default function RegisterPageView() {
     const file = data["image"];
     photoFile.append("image", file as string | Blob);
     console.log("FROM FILE", file, photoFile);
-    let image_url = await uploadPhoto(photoFile);
-    if (!image_url)
-      image_url = "https://i.ibb.co.com/Nnt2N26/user-placeholder.png";
+    let picture = await uploadPhoto(photoFile);
+    if (!Boolean(picture))
+      picture = "https://i.ibb.co.com/Nnt2N26/user-placeholder.png";
     // Toaster
-    console.log(image_url);
-    data["image_url"] = String(image_url);
+    console.log(picture);
+    data["picture"] = String(picture);
+    data["role"] = "user";
+    console.log(data);
     const d = await registerUser(data);
     if (d.success) {
       router.push("/");
@@ -113,6 +113,19 @@ export default function RegisterPageView() {
           >
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input type={"text"} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -141,36 +154,10 @@ export default function RegisterPageView() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="first_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>First name</FormLabel>
-                  <FormControl>
-                    <Input type={"text"} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="last_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last name</FormLabel>
-                  <FormControl>
-                    <Input type={"text"} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             {/*
             <FormField
               control={form.control}
-              name="image_url"
+              name="picture"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Profile Pic URL</FormLabel>
@@ -198,19 +185,6 @@ export default function RegisterPageView() {
                         }
                       }}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone_no"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone No.</FormLabel>
-                  <FormControl>
-                    <Input type={"text"} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
