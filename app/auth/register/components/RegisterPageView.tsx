@@ -79,7 +79,7 @@ export default function RegisterPageView() {
     // Toaster
     console.log(picture);
     data["picture"] = String(picture);
-    data["role"] = "user";
+    // data["role"] = "user";
     console.log(data);
     const d = await registerUser(data);
     if (d.success) {

@@ -36,7 +36,7 @@ const authOptions: AuthOptions = {
         if (Boolean(d)) {
           // Any object returned will be saved in `user` property of the JWT
           // delete d["token"];
-          return d;
+          return d.data;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           return null;
@@ -53,6 +53,7 @@ const authOptions: AuthOptions = {
     jwt: async ({ token, user }) => {
       // Add additional fields to the token
       if (user) {
+        token.token = String(user?.token);
         token.user_id = String(user?.user_id);
         token.username = user?.username ? String(user?.username) : "";
         token.image_url = user?.image_url ? String(user?.image_url) : "";
@@ -66,6 +67,7 @@ const authOptions: AuthOptions = {
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
       // Add additional fields to the session object
+      session.user.token = String(token?.token);
       session.user.user_id = String(token?.user_id);
       session.user.username = String(token?.username);
       session.user.image_url = token?.image_url

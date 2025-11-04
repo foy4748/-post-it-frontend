@@ -17,7 +17,7 @@ export const registerUser = async (data: TUserRegisterPayload) => {
     console.log(d);
     if (d.status == 201) {
       const ck = await cookies();
-      ck.set("token", String(d.token), {
+      ck.set("token", String(d.data.token), {
         httpOnly: true,
         secure: true,
         sameSite: "none",

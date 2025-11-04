@@ -17,7 +17,7 @@ export const loginUser = async (data: TUserCredentialPayload) => {
     const d = await res.json();
     if (d.success) {
       const ck = await cookies();
-      ck.set("token", String(d.token), {
+      ck.set("token", String(d.data.token), {
         httpOnly: true,
         secure: true,
         sameSite: "none",
