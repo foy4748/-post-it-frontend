@@ -17,24 +17,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { createThread } from "@/actions/thread/createThread";
+import { createPost } from "@/actions/post/createPost";
+import { useParams } from "next/navigation";
 
 export const FormSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(5, "Thread title must be at least 5 characters")
-    .max(200, "Thread title cannot exceed 200 characters"),
-
   content: z
     .string()
     .min(10, "Thread content must be at least 10 characters")
-    .max(10000, "Thread content cannot exceed 10000 characters"),
+    .max(5000, "Thread content cannot exceed 10000 characters"),
 });
-export default function CreateThreadForm() {
+export default function CreatePostForm() {
   const [, setLoading] = useState(false);
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
+  const { threadId } = useParams();
+  console.log(threadId);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     mode: "all",
@@ -48,14 +43,14 @@ export default function CreateThreadForm() {
       title: "Posting new thread...",
     });
     try {
-      const d = await createThread(data);
+      const d = await createPost(data, String(threadId));
       if (d.success) {
         toast({
-          title: "Posted Thread Successfully",
+          title: "New Post created Successfully",
         });
       } else {
         toast({
-          title: "FAILED posting thread",
+          title: "FAILED to create new post",
           description: (
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
               <code className="text-white">{d.error}</code>
@@ -75,21 +70,8 @@ export default function CreateThreadForm() {
     <section className="flex justify-center w-full">
       <div className="w-2/3">
         <Form {...form}>
-          <h1 className="text-3xl font-bold mb-8">Create a New Thread</h1>
+          <h1 className="text-3xl font-bold mb-8">Create a New Post</h1>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input type={"text"} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="content"
