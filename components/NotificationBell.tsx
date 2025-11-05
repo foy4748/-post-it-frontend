@@ -14,11 +14,16 @@ export default function NotificationBell() {
       console.log(data);
       setNotifications((prev) => [...prev, data]);
     });
+    socket.on("new-thread", (data) => {
+      console.log(data);
+      setNotifications((prev) => [...prev, data]);
+    });
 
     return () => {
-      socket.emit("disconnect", () => {
-        console.log("Bye Bye");
-      });
+      socket.disconnect();
+      // socket.emit("disconnect", () => {
+      //   console.log("Bye Bye");
+      // });
     };
   }, []);
 
@@ -55,7 +60,7 @@ export default function NotificationBell() {
         <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
           <div className="p-3 border-b border-gray-200 flex justify-between items-center">
             <h3 className="font-semibold">Notifications</h3>
-            <span className="text-sm text-gray-500">{unreadCount} unread</span>
+            <span className="text-sm text-gray-500"> 0 unread</span>
           </div>
 
           <div className="max-h-96 overflow-y-auto">

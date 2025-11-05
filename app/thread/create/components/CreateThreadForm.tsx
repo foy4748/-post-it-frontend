@@ -37,6 +37,10 @@ export default function CreateThreadForm() {
   // const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      content: "",
+      title: "",
+    },
     mode: "all",
   });
 
