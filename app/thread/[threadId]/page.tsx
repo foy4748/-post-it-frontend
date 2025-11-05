@@ -1,5 +1,6 @@
 import { getPosts } from "@/actions/post/getPosts";
 import { TSinglePost } from "@/types/post";
+import Link from "next/link";
 
 type propType = {
   params: Promise<{
@@ -13,8 +14,10 @@ async function SingleThreadPage({ params }: propType) {
   return (
     <div>
       <p>{p.threadId}</p>
-      {posts.map((p) => (
-        <p>{p.content}</p>
+      {posts.map((post) => (
+        <Link key={post._id} href={`/thread/${p.threadId}/${post._id}`}>
+          <p>{post.content}</p>
+        </Link>
       ))}
     </div>
   );
