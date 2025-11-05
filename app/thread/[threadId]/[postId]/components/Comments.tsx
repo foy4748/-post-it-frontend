@@ -8,11 +8,12 @@ function Comments({ comments }: { comments: TSingleComment[] }) {
   const { postId } = useParams();
   const [replies, setReplies] = useState<TSingleNestedComment[]>([]);
   const loadReplies = async (commentId: string) => {
+    console.log(commentId);
     const replies: TSingleNestedComment[] = await getNestedComments(
       String(postId),
       commentId,
     );
-    setReplies(replies);
+    setReplies((prev) => [...prev, ...replies]);
   };
   return (
     <>
@@ -22,7 +23,14 @@ function Comments({ comments }: { comments: TSingleComment[] }) {
           <p onClick={() => loadReplies(c._id)}>Reply</p>
           {replies
             ?.filter((r) => r.parentComment == c._id)
-            ?.map((r) => <p>{r.content}</p>)}
+            ?.map((r, idx) => {
+              return (
+                <div key={`${r._id}-${idx}`}>
+                  <p>{r.content}</p>
+                  <p onClick={() => loadReplies(r._id)}>Reply</p>
+                </div>
+              );
+            })}
         </div>
       ))}
     </>
