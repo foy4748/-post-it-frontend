@@ -27,13 +27,21 @@ export const FormSchema = z.object({
     .string()
     .min(10, "Thread content must be at least 10 characters")
     .max(5000, "Thread content cannot exceed 10000 characters"),
+  parentComment: z
+    .string()
+    .regex(/^[a-fA-F0-9]{24}$/, "Invalid category ID format")
+    .optional(), // ObjectId validation
 });
 
 function CommentForm({ parentComment }: propType) {
   const [, setLoading] = useState(false);
-  const { threadId, postId } = useParams();
+  const { postId } = useParams();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      parentComment,
+      content: "",
+    },
     mode: "all",
   });
   async function onSubmit(data: z.infer<typeof FormSchema>) {
