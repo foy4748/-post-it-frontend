@@ -1,6 +1,7 @@
 import { getComments } from "@/actions/comment/getComments";
 import { TSingleComment } from "@/types/comment";
 import CommentForm from "./components/CommentForm";
+import Comments from "./components/Comments";
 
 type propType = {
   params: Promise<{
@@ -17,12 +18,7 @@ async function SinglePostPage({ params }: propType) {
       <p>{p.threadId}</p>
       <p>{p.postId}</p>
       <CommentForm />
-      {comments?.map((c) => (
-        <div>
-          {" "}
-          <p>{c.content}</p> <CommentForm parentComment={c._id} />
-        </div>
-      ))}
+      <Comments comments={comments} />
     </div>
   );
 }
