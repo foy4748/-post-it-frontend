@@ -1,39 +1,43 @@
 "use client";
-import { getNestedComments } from "@/actions/comment/getNestedComments";
-import { TSingleComment, TSingleNestedComment } from "@/types/comment";
+import { ISingleComment, INestedComment } from "@/types/comment";
+import { useEffect, useState } from "react";
+import CommentItem from "./CommentItem";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 
-function Comments({ comments }: { comments: TSingleComment[] }) {
+function Comments({ comments }: { comments: ISingleComment[] }) {
+  console.log(comments);
+  const [isLoading, setIsLoading] = useState(false);
   const { postId } = useParams();
-  const [replies, setReplies] = useState<TSingleNestedComment[]>([]);
-  const loadReplies = async (commentId: string) => {
-    console.log(commentId);
-    const replies: TSingleNestedComment[] = await getNestedComments(
-      String(postId),
-      commentId,
-    );
-    setReplies((prev) => [...prev, ...replies]);
-  };
+
   return (
-    <>
-      {comments?.map((c) => (
-        <div key={c._id}>
-          <p>{c.content}</p>
-          <p onClick={() => loadReplies(c._id)}>Reply</p>
-          {replies
-            ?.filter((r) => r.parentComment == c._id)
-            ?.map((r, idx) => {
-              return (
-                <div key={`${r._id}-${idx}`}>
-                  <p>{r.content}</p>
-                  <p onClick={() => loadReplies(r._id)}>Reply</p>
-                </div>
-              );
-            })}
-        </div>
-      ))}
-    </>
+    <div className="max-w-4xl mx-auto py-6">
+      {/* Comments Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Comments ({comments.length})
+        </h2>
+      </div>
+
+      {/* New Comment Form */}
+
+      {/* Comments List */}
+      <div className="space-y-4">
+        {comments.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <p className="text-lg">No comments yet</p>
+            <p className="text-sm mt-2">Be the first to share your thoughts!</p>
+          </div>
+        ) : (
+          comments.map((comment) => (
+            <CommentItem
+              key={comment._id}
+              comment={comment}
+              postId={String(postId)}
+            />
+          ))
+        )}
+      </div>
+    </div>
   );
 }
 

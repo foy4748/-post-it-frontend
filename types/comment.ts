@@ -1,10 +1,9 @@
-export type TSingleComment = {
+export interface ISingleComment {
   _id: string;
   content: string;
-};
+  parentComment?: string | null;
+}
 
-export type TSingleNestedComment = {
-  _id: string;
-  content: string;
-  parentComment: string;
-};
+export interface INestedComment extends ISingleComment {
+  replies?: INestedComment[];
+}
