@@ -10,7 +10,10 @@ async function ThreadsPage() {
     <div>
       {threads.map((t) => {
         return (
-          <div className="flex gap-4 rounded-lg border border-border bg-card transition-all hover:shadow-md p-6">
+          <div
+            key={t._id}
+            className="flex gap-4 rounded-lg border border-border bg-card transition-all hover:shadow-md p-6"
+          >
             {/* Vote sidebar */}
             {/*
             <div className="flex flex-col items-center gap-2">

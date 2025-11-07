@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NextAuthSessionProvider from "@/providers/NextAuthSessionProvider";
+import { Navbar } from "./components/NavBar";
+import { ForumSidebar } from "./components/SideNavBar";
+import { SidebarProvider } from "@/providers/SideNavBarProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextAuthSessionProvider>{children}</NextAuthSessionProvider>
+        <NextAuthSessionProvider>
+          <SidebarProvider>
+            <Navbar></Navbar>
+            <div className="flex">
+              <ForumSidebar></ForumSidebar>
+              <main className="flex-1 mt-16 md:ml-0">{children}</main>
+            </div>
+          </SidebarProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
