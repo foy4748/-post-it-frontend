@@ -14,7 +14,7 @@ function Comments({ comments }: { comments: ISingleComment[] }) {
       {/* Comments Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
-          Comments ({comments.length})
+          Comments ({comments?.length})
         </h2>
       </div>
 
@@ -22,13 +22,13 @@ function Comments({ comments }: { comments: ISingleComment[] }) {
 
       {/* Comments List */}
       <div className="space-y-4">
-        {comments.length === 0 ? (
+        {comments?.length == 0 ? (
           <div className="text-center py-8 text-gray-500">
             <p className="text-lg">No comments yet</p>
             <p className="text-sm mt-2">Be the first to share your thoughts!</p>
           </div>
         ) : (
-          comments.map((comment) => (
+          comments?.map((comment) => (
             <CommentItem
               key={comment._id}
               comment={comment}
