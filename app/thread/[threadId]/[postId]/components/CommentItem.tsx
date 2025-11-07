@@ -3,9 +3,10 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 import { ISingleComment } from "@/types/comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReplyForm from "./ReplyForm";
 import { useSession } from "next-auth/react";
+import { socket } from "@/lib/socket";
 
 const CommentItem = ({
   comment,
@@ -21,14 +22,31 @@ const CommentItem = ({
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  useEffect(() => {
+    socket.on(
+      `new-comment-${postId}-${comment._id}`,
+      (data: ISingleComment) => {
+        setReplies((prev) => [...prev, data]);
+      },
+    );
+
+    // return () => {
+    //   socket.disconnect();
+    //   console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
+    // };
+  }, []);
+
   const fetchReplies = async () => {
     console.log("Fetching replies");
     setLoading(true);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/comment/${postId}/${comment._id}`,
-    );
-    const data = await res.json();
-    setReplies(data);
+    if (comment._id) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/comment/${postId}/${comment._id}`,
+      );
+      const data = await res.json();
+      setReplies(data);
+      setLoading(false);
+    }
     setLoading(false);
   };
 
@@ -60,7 +78,7 @@ const CommentItem = ({
   // style={{ marginLeft: depth * 20 }}
   return (
     <div
-      className={`ml-${depth * 20} border-l border-gray-200 dark:border-gray-800 p-4 rounded-lg`}
+      className={`ml-${depth * 20} border-l-2 border-gray-200 dark:border-gray-800 p-4 rounded-lg`}
     >
       {/* <p>{comment.content}</p> */}
 
@@ -120,7 +138,7 @@ const CommentItem = ({
 	  */}
       {showReplyForm && <ReplyForm onSubmit={handleReply} />}
 
-      {replies.map((reply) => (
+      {replies?.map((reply) => (
         <CommentItem
           key={reply._id}
           comment={reply}

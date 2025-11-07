@@ -3,11 +3,32 @@ import { ISingleComment, INestedComment } from "@/types/comment";
 import { useEffect, useState } from "react";
 import CommentItem from "./CommentItem";
 import { useParams } from "next/navigation";
+import { socket } from "@/lib/socket";
+import { getComments } from "@/actions/comment/getComments";
 
-function Comments({ comments }: { comments: ISingleComment[] }) {
-  console.log(comments);
-  const [isLoading, setIsLoading] = useState(false);
+// function Comments({ comments }: { comments: ISingleComment[] }) {
+function Comments() {
+  const [comments, setComments] = useState<ISingleComment[]>([]);
+  // const [isLoading, setIsLoading] = useState(false);
   const { postId } = useParams();
+
+  useEffect(() => {
+    getComments(String(postId)).then((d: ISingleComment[]) => {
+      setComments((prev) => [...prev, ...d]);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on(`new-comment-${postId}`, (data: ISingleComment) => {
+      console.log("FROM socket", data);
+      setComments((prev) => [...prev, data]);
+    });
+
+    return () => {
+      socket.disconnect();
+      console.log(`Socket for new-commnet-${postId} is closed`);
+    };
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto py-6">

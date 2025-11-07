@@ -1,5 +1,5 @@
 import { getComments } from "@/actions/comment/getComments";
-import { TSingleComment } from "@/types/comment";
+import { ISingleComment } from "@/types/comment";
 import CommentForm from "./components/CommentForm";
 import Comments from "./components/Comments";
 
@@ -12,7 +12,7 @@ type propType = {
 
 async function SinglePostPage({ params }: propType) {
   const p = await params;
-  const comments: TSingleComment[] = await getComments(p.postId);
+  const comments: ISingleComment[] = await getComments(p.postId);
   return (
     <div>
       <p>{p.threadId}</p>
