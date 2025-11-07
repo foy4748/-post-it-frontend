@@ -12,13 +12,13 @@ type propType = {
 
 async function SinglePostPage({ params }: propType) {
   const p = await params;
-  const comments: ISingleComment[] = await getComments(p.postId);
+  // const comments: ISingleComment[] = await getComments(p.postId);
   return (
     <div>
       <p>{p.threadId}</p>
       <p>{p.postId}</p>
       <CommentForm />
-      <Comments comments={comments} />
+      <Comments />
     </div>
   );
 }

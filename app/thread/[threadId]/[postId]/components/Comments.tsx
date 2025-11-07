@@ -19,6 +19,7 @@ function Comments() {
   }, []);
 
   useEffect(() => {
+    socket.connect();
     socket.on(`new-comment-${postId}`, (data: ISingleComment) => {
       console.log("FROM socket", data);
       setComments((prev) => [...prev, data]);

@@ -23,6 +23,7 @@ const CommentItem = ({
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    socket.connect();
     socket.on(
       `new-comment-${postId}-${comment._id}`,
       (data: ISingleComment) => {
@@ -30,10 +31,10 @@ const CommentItem = ({
       },
     );
 
-    // return () => {
-    //   socket.disconnect();
-    //   console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
-    // };
+    return () => {
+      socket.disconnect();
+      console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
+    };
   }, []);
 
   const fetchReplies = async () => {
@@ -51,7 +52,6 @@ const CommentItem = ({
   };
 
   const handleReply = async (content: string) => {
-    // console.log({ content });
     if (content && content.length) {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/comment/${postId}`,
@@ -70,7 +70,7 @@ const CommentItem = ({
       );
       const result = await res.json();
       console.log(result);
-      fetchReplies(); // Refresh replies
+      // fetchReplies(); // Refresh replies
     }
     setShowReplyForm(false);
   };
