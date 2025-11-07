@@ -18,6 +18,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createThread } from "@/actions/thread/createThread";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import useCategory from "@/hooks/useCategories";
 
 export const FormSchema = z.object({
   title: z
@@ -26,6 +34,7 @@ export const FormSchema = z.object({
     .min(5, "Thread title must be at least 5 characters")
     .max(200, "Thread title cannot exceed 200 characters"),
 
+  category: z.string().regex(/^[a-fA-F0-9]{24}$/, "Invalid category ID format"), // ObjectId validation
   content: z
     .string()
     .min(10, "Thread content must be at least 10 characters")
@@ -33,6 +42,7 @@ export const FormSchema = z.object({
 });
 export default function CreateThreadForm() {
   const [, setLoading] = useState(false);
+  const { categories } = useCategory();
   // const pathname = usePathname();
   // const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -40,6 +50,7 @@ export default function CreateThreadForm() {
     defaultValues: {
       content: "",
       title: "",
+      category: "",
     },
     mode: "all",
   });
@@ -70,7 +81,7 @@ export default function CreateThreadForm() {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Failed to login",
+        title: "Failed to post a thread",
       });
     }
   }
@@ -90,6 +101,33 @@ export default function CreateThreadForm() {
                   <FormControl>
                     <Input type={"text"} {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a thread Category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Array.isArray(categories) &&
+                        categories?.map(({ _id, category }) => {
+                          return (
+                            <SelectItem key={_id} value={_id}>
+                              {category}
+                            </SelectItem>
+                          );
+                        })}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

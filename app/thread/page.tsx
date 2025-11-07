@@ -56,7 +56,7 @@ async function ThreadsPage() {
               {/* Category badge */}
               <div className="mb-2 inline-block">
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                  React
+                  {t.category.category}
                 </span>
               </div>
 
