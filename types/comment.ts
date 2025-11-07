@@ -1,9 +1,13 @@
+import { IUser } from "./auth/user";
+
 export interface ISingleComment {
   _id: string;
   content: string;
   parentComment?: string | null;
+  user: IUser;
+  createdAt: string;
 }
 
-export interface INestedComment extends ISingleComment {
-  replies?: INestedComment[];
-}
+// export interface INestedComment extends ISingleComment {
+//   replies?: INestedComment[];
+// }
