@@ -57,7 +57,7 @@ export default function CreateThreadForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
-    console.log(data);
+    // console.log(data);
     // Toaster
     toast({
       title: "Posting new thread...",

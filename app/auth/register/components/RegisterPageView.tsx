@@ -68,7 +68,7 @@ export default function RegisterPageView() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    // console.log(data);
     const photoFile = new FormData();
     const file = data["image"];
     photoFile.append("image", file as string | Blob);
@@ -80,7 +80,7 @@ export default function RegisterPageView() {
     console.log(picture);
     data["picture"] = String(picture);
     // data["role"] = "user";
-    console.log(data);
+    // console.log(data);
     const d = await registerUser(data);
     if (d.success) {
       router.push("/");

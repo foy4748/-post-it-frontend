@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
   MessageCircle,
-  ThumbsUp,
+  //ThumbsUp,
   Share2,
   ArrowRightIcon,
 } from "lucide-react";

@@ -61,7 +61,7 @@ export default function LoginPageView() {
           ...data,
           redirect: false,
         });
-        console.log(result);
+        //console.log(result);
         if (result?.ok) {
           router.push(callbackUrl);
           setLoading(false);

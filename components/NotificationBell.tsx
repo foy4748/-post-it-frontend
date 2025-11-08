@@ -11,11 +11,11 @@ export default function NotificationBell() {
 
   useEffect(() => {
     socket.on("notification", (data) => {
-      console.log(data);
+      // console.log(data);
       setNotifications((prev) => [...prev, data]);
     });
     socket.on("new-thread", (data) => {
-      console.log(data);
+      // console.log(data);
       setNotifications((prev) => [...prev, data]);
     });
 

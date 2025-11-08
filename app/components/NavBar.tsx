@@ -24,7 +24,7 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden gap-8 md:flex">
             <Link
-              href="#"
+              href="/thread"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Forums
@@ -34,6 +34,18 @@ export function Navbar() {
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Categories
+            </Link>
+            <Link
+              href="/auth/login"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Login
+            </Link>
+            <Link
+              href="/auth/register"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Register
             </Link>
           </div>
 
