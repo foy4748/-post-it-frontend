@@ -2,7 +2,14 @@ import { getThreads } from "@/actions/thread/getThreads";
 import { TSingleThread } from "@/types/thread";
 // import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, MessageCircle, ThumbsUp, Share2 } from "lucide-react";
+import {
+  ChevronDown,
+  MessageCircle,
+  ThumbsUp,
+  Share2,
+  ArrowRightIcon,
+} from "lucide-react";
+import Link from "next/link";
 
 async function ThreadsPage() {
   const threads: TSingleThread[] = await getThreads();
@@ -102,10 +109,19 @@ async function ThreadsPage() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-muted-foreground hover:text-foreground"
+                    className="pointer text-muted-foreground hover:text-foreground"
                   >
                     <Share2 className="h-4 w-4" />
                   </Button>
+                  <Link href={`/thread/${t._id}`}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <ArrowRightIcon className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>

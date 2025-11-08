@@ -22,20 +22,20 @@ const CommentItem = ({
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
-    socket.connect();
-    socket.on(
-      `new-comment-${postId}-${comment._id}`,
-      (data: ISingleComment) => {
-        setReplies((prev) => [...prev, data]);
-      },
-    );
+  // useEffect(() => {
+  //   socket.connect();
+  //   socket.on(
+  //     `new-comment-${postId}-${comment._id}`,
+  //     (data: ISingleComment) => {
+  //       setReplies((prev) => [...prev, data]);
+  //     },
+  //   );
 
-    return () => {
-      socket.disconnect();
-      console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //     console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
+  //   };
+  // }, []);
 
   const fetchReplies = async () => {
     console.log("Fetching replies");
@@ -50,6 +50,18 @@ const CommentItem = ({
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    socket.connect();
+    socket.on(`new-comment-${postId}-${comment._id}`, () => {
+      fetchReplies();
+    });
+
+    return () => {
+      socket.disconnect();
+      console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
+    };
+  }, []);
 
   const handleReply = async (content: string) => {
     if (content && content.length) {
