@@ -7,9 +7,6 @@ export const createComment = async (
 ) => {
   try {
     const c = await cookies();
-    console.log({
-      authorization: String(c.get("token")?.value),
-    });
     const SERVER_ADDRESS = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${SERVER_ADDRESS}/comment/${postId}`, {
       method: "POST",

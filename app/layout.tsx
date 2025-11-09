@@ -5,6 +5,7 @@ import NextAuthSessionProvider from "@/providers/NextAuthSessionProvider";
 import { Navbar } from "./components/NavBar";
 import { ForumSidebar } from "./components/SideNavBar";
 import { SidebarProvider } from "@/providers/SideNavBarProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
               <ForumSidebar></ForumSidebar>
               <main className="flex-1 mt-16 md:ml-0">{children}</main>
             </div>
+            <Toaster />
           </SidebarProvider>
         </NextAuthSessionProvider>
       </body>

@@ -15,10 +15,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createPost } from "@/actions/post/createPost";
 import { useParams } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 export const FormSchema = z.object({
   content: z
@@ -27,12 +27,12 @@ export const FormSchema = z.object({
     .max(5000, "Thread content cannot exceed 10000 characters"),
 });
 export default function CreatePostForm() {
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { threadId } = useParams();
   console.log(threadId);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    mode: "all",
+    // mode: "all",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -44,10 +44,12 @@ export default function CreatePostForm() {
     });
     try {
       const d = await createPost(data, String(threadId));
-      if (d.success) {
+      if (d._id) {
         toast({
           title: "New Post created Successfully",
         });
+        form.reset({ content: "" });
+        setLoading(false);
       } else {
         toast({
           title: "FAILED to create new post",
@@ -57,18 +59,20 @@ export default function CreatePostForm() {
             </pre>
           ),
         });
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
       toast({
-        title: "Failed to login",
+        title: "Failed to create new post",
       });
+      setLoading(false);
     }
   }
 
   return (
     <section className="flex justify-center w-full">
-      <div className="w-2/3">
+      <div className="w-full">
         <Form {...form}>
           <h1 className="text-3xl font-bold mb-8">Create a New Post</h1>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -77,9 +81,9 @@ export default function CreatePostForm() {
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Content</FormLabel>
+                  <FormLabel className="block my-5">Content</FormLabel>
                   <FormControl>
-                    <Input type={"text"} {...field} />
+                    <Textarea {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,7 +91,7 @@ export default function CreatePostForm() {
             />
 
             <div className="flex">
-              <Button className="flex-1" type="submit">
+              <Button disabled={loading} className="flex-1" type="submit">
                 Submit
               </Button>
             </div>

@@ -18,7 +18,7 @@ function SummarizeButton() {
   };
   return (
     <>
-      <div onClick={handleSummarize}>
+      <div onClick={handleSummarize} className="flex justify-end">
         <div className="flex gap-2">
           <Button
             variant="outline"
