@@ -5,44 +5,55 @@ import {
   ChevronDown,
   Home,
   TrendingUp,
-  Users,
   Bookmark,
   Settings,
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/providers/SideNavBarProvider";
+import { signOut } from "next-auth/react";
+import { TThreadCategory } from "@/types/thread";
+import Link from "next/link";
 
 interface SidebarSection {
   id: string;
   title: string;
-  items: { label: string; count?: number }[];
+  items: TThreadCategory[];
   isOpen: boolean;
 }
 
 export function ForumSidebar() {
-  const { isOpen } = useSidebar();
+  const { isOpen, toggleSidebar } = useSidebar();
   const [sections, setSections] = useState<SidebarSection[]>([
     {
       id: "categories",
       title: "Categories",
       isOpen: true,
       items: [
-        { label: "General Discussion", count: 234 },
-        { label: "Announcements", count: 12 },
-        { label: "Questions & Help", count: 567 },
-        { label: "Feedback", count: 89 },
-      ],
-    },
-    {
-      id: "trending",
-      title: "Trending Topics",
-      isOpen: true,
-      items: [
-        { label: "New Feature Releases" },
-        { label: "Community Best Practices" },
-        { label: "Getting Started Guide" },
-        { label: "Troubleshooting Tips" },
+        {
+          _id: "690e0bc1ed0a972bee08e2ea",
+          category: "React",
+        },
+        {
+          _id: "690e0bcbed0a972bee08e2ec",
+          category: "NextJS",
+        },
+        {
+          _id: "690e0bcfed0a972bee08e2ee",
+          category: "Redux",
+        },
+        {
+          _id: "690e0bd5ed0a972bee08e2f0",
+          category: "Redux-Toolkit",
+        },
+        {
+          _id: "690e0beded0a972bee08e2f2",
+          category: "WebSocket",
+        },
+        {
+          _id: "690e0bf9ed0a972bee08e2f4",
+          category: "AI / ML",
+        },
       ],
     },
   ]);
@@ -57,43 +68,44 @@ export function ForumSidebar() {
     );
   };
 
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/", redirect: false });
+  };
+
   return (
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 md:hidden z-30 top-16"
-          onClick={() => {}}
+          className="fixed inset-0 md:hidden z-30 top-16"
+          onClick={toggleSidebar}
         />
       )}
 
       <aside
-        className={`fixed left-0 top-16 w-64 border-r border-border bg-sidebar h-[calc(100vh-4rem)] overflow-y-auto flex flex-col z-40 transform transition-transform duration-300 ${
+        className={`fixed left-0 top-16 w-64 border-r border-border h-full overflow-y-auto flex flex-col z-40 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } md:static md:translate-x-0`}
       >
         {/* Primary Navigation */}
         <nav className="flex-1 p-4 space-y-2">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-foreground hover:bg-accent"
-          >
-            <Home className="h-5 w-5" />
-            <span>Home</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-foreground hover:bg-accent"
-          >
-            <TrendingUp className="h-5 w-5" />
-            <span>Trending</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-foreground hover:bg-accent"
-          >
-            <Users className="h-5 w-5" />
-            <span>Members</span>
-          </Button>
+          <Link href={"/"}>
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 text-foreground hover:bg-accent"
+            >
+              <Home className="h-5 w-5" />
+              <span>Home</span>
+            </Button>
+          </Link>
+          <Link href={"/thread"}>
+            <Button
+              variant="ghost"
+              className="w-full justify-start gap-3 text-foreground hover:bg-accent"
+            >
+              <TrendingUp className="h-5 w-5" />
+              <span>Threads</span>
+            </Button>
+          </Link>
         </nav>
 
         {/* Collapsible Sections */}
@@ -121,14 +133,11 @@ export function ForumSidebar() {
                 <ul className="space-y-1 ml-2 border-l border-border pl-3">
                   {section.items.map((item, idx) => (
                     <li key={idx}>
-                      <button className="w-full text-left py-1.5 px-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors flex items-center justify-between">
-                        <span>{item.label}</span>
-                        {item.count && (
-                          <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full">
-                            {item.count}
-                          </span>
-                        )}
-                      </button>
+                      <Link href={`/thread?category=${item._id}`}>
+                        <button className="w-full text-left py-1.5 px-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded transition-colors flex items-center justify-between">
+                          <span>{item.category}</span>
+                        </button>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -140,20 +149,7 @@ export function ForumSidebar() {
         {/* User Menu */}
         <div className="p-4 border-t border-border space-y-2">
           <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-foreground hover:bg-accent"
-          >
-            <Bookmark className="h-5 w-5" />
-            <span>Saved Posts</span>
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-foreground hover:bg-accent"
-          >
-            <Settings className="h-5 w-5" />
-            <span>Settings</span>
-          </Button>
-          <Button
+            onClick={() => handleSignOut()}
             variant="ghost"
             className="w-full justify-start gap-3 text-foreground hover:bg-accent text-red-500 hover:text-red-600"
           >

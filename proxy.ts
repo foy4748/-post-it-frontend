@@ -9,6 +9,9 @@ export default async function proxy(req: NextRequest) {
   const isThread = req.nextUrl.pathname.startsWith("/thread");
   console.log("FROM Proxy");
   console.log(token);
+  if (!token && isThread) {
+    return NextResponse.rewrite(new URL("/auth/login", req.url));
+  }
   // console.log({ isThread, path: req.nextUrl.pathname });
   return NextResponse.next();
 }

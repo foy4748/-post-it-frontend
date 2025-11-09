@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { socket } from "@/lib/socket";
 import moment from "moment";
 import { cn } from "@/lib/utils";
+import DeleteComment from "./DeleteComment";
 
 const CommentItem = ({
   comment,
@@ -49,6 +50,10 @@ const CommentItem = ({
     socket.on(`explicit-comment-${comment._id}`, () => {
       console.log(`explicit-post-${comment._id}`);
       setIsFlagged(true);
+    });
+
+    socket.on(`delete-comment`, () => {
+      fetchReplies();
     });
 
     return () => {
@@ -99,7 +104,7 @@ const CommentItem = ({
           <AvatarImage src={comment.user.picture} alt={comment.user.username} />
           <AvatarFallback>{comment.user.username}</AvatarFallback>
         </Avatar>
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 w-full text-sm">
           <div className="flex items-center w-full justify-between space-x-2">
             <div>
               <div className="font-semibold">AC</div>
@@ -112,6 +117,9 @@ const CommentItem = ({
                 <Button size={"sm"} className="bg-red-500 text-white">
                   Flagged
                 </Button>
+              )}
+              {comment.user._id == data?.user.id && (
+                <DeleteComment comment={comment} />
               )}
             </div>
           </div>

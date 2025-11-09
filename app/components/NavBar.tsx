@@ -31,12 +31,6 @@ export function Navbar() {
               Forums
             </Link>
             <Link
-              href="#"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Categories
-            </Link>
-            <Link
               href="/auth/login"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >

@@ -14,7 +14,7 @@ function Comments() {
 
   useEffect(() => {
     getComments(String(postId)).then((d: ISingleComment[]) => {
-      setComments((prev) => [...prev, ...d]);
+      setComments(d);
     });
   }, []);
 
@@ -22,7 +22,14 @@ function Comments() {
     socket.connect();
     socket.on(`new-comment-${postId}`, (data: ISingleComment) => {
       console.log("FROM socket", data);
-      setComments((prev) => [...prev, data]);
+      getComments(String(postId)).then((d: ISingleComment[]) => {
+        setComments(d);
+      });
+    });
+    socket.on(`delete-comment`, () => {
+      getComments(String(postId)).then((d: ISingleComment[]) => {
+        setComments(d);
+      });
     });
 
     return () => {
