@@ -92,7 +92,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
   };
-  if (user?.isAdmin) {
+  if (user?.user?.role == "admin") {
     data.navMain.push(adminRoutes);
     console.log(user);
   }
