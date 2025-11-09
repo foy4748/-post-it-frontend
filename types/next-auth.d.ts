@@ -5,16 +5,16 @@ import JWT from "next-auth/jwt";
 
 declare module "next-auth" {
   interface User {
+    user: {
+      id: string;
+      _id: string;
+      username: string;
+      picture: string | null | undefined;
+      email: string;
+      role: string;
+      // expire_login: string | number | Date;
+    };
     token: string;
-    user_id: string;
-    username: string;
-    image_url: string | null | undefined;
-    first_name: string | null | undefined;
-    last_name: string | null | undefined;
-    phone_no: string | null | undefined;
-    email: string;
-    isAdmin: boolean;
-    expire_login: string | number | Date;
   }
 
   interface Session {
@@ -25,14 +25,11 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     token: string;
-    user_id: string;
+    _id: string;
     username: string;
-    image_url: string;
-    first_name: string;
-    last_name: string;
-    phone_no: string;
+    picture: string;
     email: string;
-    isAdmin: boolean;
-    expire_login: string | number | Date;
+    role: string;
+    // expire_login: string | number | Date;
   }
 }

@@ -33,7 +33,9 @@ const authOptions: AuthOptions = {
           password: String(credentials?.password),
         };
         const d = await loginUser(payload);
-        if (Boolean(d)) {
+        console.log("From authOptions authorize");
+        console.log(d);
+        if (d.success) {
           // Any object returned will be saved in `user` property of the JWT
           // delete d["token"];
           return d.data;
@@ -50,41 +52,63 @@ const authOptions: AuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
-      // Add additional fields to the token
-      if (user) {
-        token.token = String(user?.token);
-        token.user_id = String(user?.user_id);
+    jwt: async ({ token, user: User }) => {
+      if (User) {
+        const { user } = User || {};
+        token.token = String(User?.token);
+        token._id = String(user?._id);
         token.username = user?.username ? String(user?.username) : "";
-        token.image_url = user?.image_url ? String(user?.image_url) : "";
-        token.first_name = user?.first_name ? String(user?.first_name) : "";
-        token.last_name = user?.last_name ? String(user?.last_name) : "";
-        token.phone_no = user?.phone_no ? String(user?.phone_no) : "";
-        token.isAdmin = Boolean(user?.isAdmin);
-        token.expire_login = String(user?.expire_login);
+        token.email = user?.email ? String(user?.email) : ""; // Add this line
+        token.picture = user?.picture ? String(user?.picture) : "";
+        token.role = user?.role;
       }
       return token;
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      // Add additional fields to the session object
-      session.user.token = String(token?.token);
-      session.user.user_id = String(token?.user_id);
-      session.user.username = String(token?.username);
-      session.user.image_url = token?.image_url
-        ? String(token?.image_url)
-        : null;
-      session.user.first_name = token?.first_name
-        ? String(token?.first_name)
-        : null;
-      session.user.last_name = token?.last_name
-        ? String(token?.last_name)
-        : null;
-      session.user.phone_no = token?.phone_no ? String(token?.phone_no) : null;
-      session.user.isAdmin = Boolean(token?.isAdmin);
-      session.user.expire_login = String(token?.expire_login);
+      // Create the user object structure that matches your User interface
+      session.user = {
+        id: String(token?._id),
+        user: {
+          id: String(token?._id),
+          _id: String(token?._id),
+          username: String(token?.username),
+          picture: token?.picture ? String(token?.picture) : null,
+          email: String(token?.email), // Make sure this exists
+          role: String(token?.role),
+        },
+        token: String(token?.token),
+      };
       return session;
     },
   },
 };
 
 export default authOptions;
+
+/*
+    jwt: async ({ token, user: User }) => {
+      // Add additional fields to the token
+      if (User) {
+        const { user } = User || {};
+        console.log("From authOptions jwt");
+        console.log(user);
+        token.token = String(User?.token);
+        token._id = String(user?._id);
+        token.username = user?.username ? String(user?.username) : "";
+        token.image_url = user?.picture ? String(user?.picture) : "";
+        token.role = user?.role;
+      }
+      return token;
+    },
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
+      // Add additional fields to the session object
+      session.user.token = String(token?.token);
+      session.user.user._id = String(token?._id);
+      session.user.user.username = String(token?.username);
+      session.user.user.picture = token?.picture
+        ? String(token?.picture)
+        : null;
+      session.user.user.role = String(token?.role);
+      return session;
+    },
+*/
