@@ -48,11 +48,11 @@ function CommentForm({ parentComment }: propType) {
     setLoading(true);
     // Toaster
     toast({
-      title: "Posting new thread...",
+      title: "Posting new comment...",
     });
     try {
       const d = await createComment(data, String(postId));
-      if (d.success) {
+      if (d._id) {
         toast({
           title: "New comment created Successfully",
         });
@@ -69,7 +69,7 @@ function CommentForm({ parentComment }: propType) {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Failed to login",
+        title: "FAILED to create new comment",
       });
     }
   }

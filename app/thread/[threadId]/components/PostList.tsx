@@ -48,9 +48,7 @@ export default function PostList() {
 
         {/* Posts/Comments list */}
         <div className="space-y-4 mb-8">
-          {postData.map((post) => (
-            <SinglePost key={post._id} post={post} />
-          ))}
+          {postData?.map((post) => <SinglePost key={post._id} post={post} />)}
         </div>
 
         {/* Reply input */}

@@ -4,6 +4,7 @@ export interface ISingleComment {
   _id: string;
   content: string;
   parentComment?: string | null;
+  isFlagged?: boolean;
   user: IUser;
   createdAt: string;
 }

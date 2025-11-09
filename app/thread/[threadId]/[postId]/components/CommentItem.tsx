@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import ReplyForm from "./ReplyForm";
 import { useSession } from "next-auth/react";
 import { socket } from "@/lib/socket";
+import moment from "moment";
+import { cn } from "@/lib/utils";
 
 const CommentItem = ({
   comment,
@@ -21,21 +23,7 @@ const CommentItem = ({
   const { data } = useSession();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   socket.connect();
-  //   socket.on(
-  //     `new-comment-${postId}-${comment._id}`,
-  //     (data: ISingleComment) => {
-  //       setReplies((prev) => [...prev, data]);
-  //     },
-  //   );
-
-  //   return () => {
-  //     socket.disconnect();
-  //     console.log(`Socket for new-comment-${postId}-${comment._id} is closed`);
-  //   };
-  // }, []);
+  const [isFlagged, setIsFlagged] = useState(false);
 
   const fetchReplies = async () => {
     console.log("Fetching replies");
@@ -55,6 +43,12 @@ const CommentItem = ({
     socket.connect();
     socket.on(`new-comment-${postId}-${comment._id}`, () => {
       fetchReplies();
+    });
+
+    // Checking Flagged Comments
+    socket.on(`explicit-comment-${comment._id}`, () => {
+      console.log(`explicit-post-${comment._id}`);
+      setIsFlagged(true);
     });
 
     return () => {
@@ -90,7 +84,13 @@ const CommentItem = ({
   // style={{ marginLeft: depth * 20 }}
   return (
     <div
-      className={`ml-${depth * 20} border-l-2 border-gray-200 dark:border-gray-800 p-4 rounded-lg`}
+      className={cn(
+        `ml-${depth * 20} border-l-2 border-gray-200 dark:border-gray-800 p-4 rounded-lg`,
+        {
+          "border-l-3 border-red-500 hover:border-red-700":
+            isFlagged || comment.isFlagged === true,
+        },
+      )}
     >
       {/* <p>{comment.content}</p> */}
 
@@ -100,10 +100,19 @@ const CommentItem = ({
           <AvatarFallback>{comment.user.username}</AvatarFallback>
         </Avatar>
         <div className="space-y-2 text-sm">
-          <div className="flex items-center space-x-2">
-            <div className="font-semibold">AC</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              {comment.createdAt}
+          <div className="flex items-center w-full justify-between space-x-2">
+            <div>
+              <div className="font-semibold">AC</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {moment(comment.createdAt).fromNow()}
+              </div>
+            </div>
+            <div>
+              {(isFlagged || comment.isFlagged === true) && (
+                <Button size={"sm"} className="bg-red-500 text-white">
+                  Flagged
+                </Button>
+              )}
             </div>
           </div>
           <div>

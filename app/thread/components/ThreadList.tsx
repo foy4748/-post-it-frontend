@@ -1,11 +1,8 @@
 "use client";
 // import React, {useState} from "react"
 import { getThreads } from "@/actions/thread/getThreads";
-import { Button } from "@/components/ui/button";
 import { socket } from "@/lib/socket";
 import { TSingleThread } from "@/types/thread";
-import { MessageCircle } from "lucide-react";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import ThreadCard from "./ThreadCard";
 

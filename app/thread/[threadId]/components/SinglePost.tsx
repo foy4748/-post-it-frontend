@@ -6,9 +6,12 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { socket } from "@/lib/socket";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import Link from "next/link";
 
 function SinglePost({ post }: { post: TSinglePost }) {
   const [isFlagged, setIsFlagged] = useState<Boolean>(false);
+  const { threadId } = useParams();
   console.log("from SinglePost", { post });
   console.log({ isFlagged });
   useEffect(() => {
@@ -22,11 +25,15 @@ function SinglePost({ post }: { post: TSinglePost }) {
     };
   }, []);
   return (
-    <div
+    <Link
+      href={`/thread/${threadId}/${post?._id}`}
       key={post._id}
       className={cn(
-        "rounded-lg border  bg-card p-4 hover:border-primary/50 transition-colors",
-        { "border border-red-500 hover:border-red-700": isFlagged },
+        "block rounded-lg border  bg-card p-4 hover:border-primary/50 transition-colors",
+        {
+          "border border-red-500 hover:border-red-700":
+            isFlagged || post.isFlagged === true,
+        },
       )}
     >
       <div className="flex gap-4">
@@ -46,7 +53,7 @@ function SinglePost({ post }: { post: TSinglePost }) {
             <p className="text-sm text-muted-foreground ml-auto">
               {moment(post.createdAt).fromNow()}
             </p>
-            {isFlagged && (
+            {(isFlagged || post.isFlagged === true) && (
               <Button size={"sm"} className="bg-red-500 text-white">
                 Flagged
               </Button>
@@ -66,7 +73,7 @@ function SinglePost({ post }: { post: TSinglePost }) {
           </Button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
