@@ -5,10 +5,7 @@ import { socket } from "@/lib/socket";
 import { TSingleThread } from "@/types/thread";
 import { useEffect, useState } from "react";
 import ThreadCard from "./ThreadCard";
-import {
-  SearchAndFilterThread,
-  SearchAndFilterThreadForm,
-} from "./SearchAndFilterThreads";
+import { SearchAndFilterThread } from "./SearchAndFilterThreads";
 import { useSearchParams } from "next/navigation";
 import useCategory from "@/hooks/useCategories";
 
@@ -29,6 +26,10 @@ export default function ThreadList() {
   useEffect(() => {
     socket.connect();
     socket.on(`new-thread`, () => {
+      fetchThreads(s);
+    });
+
+    socket.on(`delete-thread`, () => {
       fetchThreads(s);
     });
 

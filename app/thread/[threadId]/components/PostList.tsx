@@ -26,6 +26,10 @@ export default function PostList() {
       fetchPosts();
     });
 
+    socket.on(`delete-post`, () => {
+      fetchPosts();
+    });
+
     return () => {
       socket.disconnect();
       console.log(`Socket for new-post-${p?.threadId} is closed`);

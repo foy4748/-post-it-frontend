@@ -7,8 +7,8 @@ export default async function proxy(req: NextRequest) {
     secureCookie: process.env.NODE_ENV === "production" ? true : false,
   });
   const isThread = req.nextUrl.pathname.startsWith("/thread");
-  console.log("FROM Proxy");
-  console.log(token);
+  // console.log("FROM Proxy");
+  // console.log(token);
   if (!token && isThread) {
     return NextResponse.rewrite(new URL("/auth/login", req.url));
   }

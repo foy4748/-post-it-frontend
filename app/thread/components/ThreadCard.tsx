@@ -12,8 +12,11 @@ import { TSingleThread } from "@/types/thread";
 import { useEffect, useState } from "react";
 import { socket } from "@/lib/socket";
 import { cn } from "@/lib/utils";
+import DeleteThread from "./DeleteThread";
+import { useSession } from "next-auth/react";
 
 function ThreadCard({ thread }: { thread: TSingleThread }) {
+  const { data } = useSession();
   const [isFlagged, setIsFlagged] = useState<boolean>(false);
   useEffect(() => {
     socket.connect();
@@ -30,21 +33,25 @@ function ThreadCard({ thread }: { thread: TSingleThread }) {
     };
   }, []);
   return (
-    <Link className="block" href={`/thread/${thread._id}`}>
-      <div
-        key={thread._id}
-        className={cn(
-          "flex gap-4 rounded-lg border border-border bg-card transition-all hover:shadow-md p-6",
-          {
-            "border-l-3 border-red-500 hover:border-red-700":
-              isFlagged || thread?.isFlagged === true,
-          },
-        )}
-      >
-        {/* Main content */}
+    <div
+      key={thread._id}
+      className={cn(
+        " rounded-lg border border-border bg-card transition-all hover:shadow-md p-6",
+        {
+          "border-l-3 border-red-500 hover:border-red-700":
+            isFlagged || thread?.isFlagged === true,
+        },
+      )}
+    >
+      <div className="flex justify-end items-center gap-x-3">
+        {/* Expand button */}
+        {thread.author._id == data?.user.id && <DeleteThread thread={thread} />}
+      </div>
+      {/* Main content */}
+      <Link className="block" href={`/thread/${thread._id}`}>
         <div className="flex-1">
           {/* Category badge */}
-          <div className="mb-2 inline-block">
+          <div className="mb-4 inline-block">
             <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               {thread.category.category}
             </span>
@@ -111,19 +118,8 @@ function ThreadCard({ thread }: { thread: TSingleThread }) {
             </div>
           </div>
         </div>
-
-        {/* Expand button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          // ${isExpanded ? "rotate-180" : ""}
-          className={`h-8 w-8 p-0 transition-transform `}
-          // onClick={onToggle}
-        >
-          <ChevronDown className="h-5 w-5" />
-        </Button>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 
