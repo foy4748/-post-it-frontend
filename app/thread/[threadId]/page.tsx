@@ -18,13 +18,13 @@ async function SingleThreadPage({ params }: propType) {
   // const posts: TSinglePost[] = await getPosts(p.threadId);
   return (
     <div>
-      <div className="mx-auto max-w-4xl px-4 py-8">
+      <div className="mx-auto max-w-6xl px-8 py-4">
         {/* Main post / Thread */}
         <SingleThreadCard thread={thread} />
         {/* Post Creation Form */}
         <CreatePostForm />
         {/* Post List */}
-        <PostList params={params} />
+        <PostList />
       </div>
 
       {/* posts?.map((post) => (

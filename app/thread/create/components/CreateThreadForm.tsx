@@ -26,6 +26,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useCategory from "@/hooks/useCategories";
+import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 export const FormSchema = z.object({
   title: z
@@ -43,6 +45,7 @@ export const FormSchema = z.object({
 export default function CreateThreadForm() {
   const [, setLoading] = useState(false);
   const { categories } = useCategory();
+  const router = useRouter();
   // const pathname = usePathname();
   // const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -52,7 +55,7 @@ export default function CreateThreadForm() {
       title: "",
       category: "",
     },
-    mode: "all",
+    // mode: "all",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -64,10 +67,16 @@ export default function CreateThreadForm() {
     });
     try {
       const d = await createThread(data);
-      if (d.success) {
+      if (d._id) {
         toast({
           title: "Posted Thread Successfully",
         });
+        form.reset({
+          content: "",
+          title: "",
+          category: "",
+        });
+        router.back();
       } else {
         toast({
           title: "FAILED posting thread",
@@ -137,9 +146,9 @@ export default function CreateThreadForm() {
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Content</FormLabel>
+                  <FormLabel className="block my-5">Content</FormLabel>
                   <FormControl>
-                    <Input type={"text"} {...field} />
+                    <Textarea {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
