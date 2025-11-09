@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, Search, Bell } from "lucide-react";
+import { Menu, X, Bell } from "lucide-react";
 import Link from "next/link";
+import { SearchAndFilterThread } from "../thread/components/SearchAndFilterThreads";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,19 +53,24 @@ export function Navbar() {
           {/* Right Section */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <div className="hidden lg:flex items-center gap-2 bg-secondary px-3 py-2 rounded-lg">
+            <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg">
+              <SearchAndFilterThread />
+              {/*
               <Search className="h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search discussions..."
                 className="bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none w-48"
               />
+			  */}
             </div>
-
             {/* Mobile Search */}
-            <button className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors lg:hidden">
+            <div className="md:hidden p-2 hover:bg-secondary rounded-lg transition-colors lg:hidden">
+              <SearchAndFilterThread />
+              {/*
               <Search className="h-5 w-5 text-foreground" />
-            </button>
+		    */}
+            </div>
 
             {/* Notifications */}
             <button className="relative p-2 hover:bg-secondary rounded-lg transition-colors">

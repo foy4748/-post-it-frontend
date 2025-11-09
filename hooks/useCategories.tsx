@@ -5,7 +5,7 @@ import { getThreadCategory } from "@/actions/thread/getThreadCategories";
 const useCategory = () => {
   const [categories, setCategories] = useState<TThreadCategory[]>([]);
   const [mappedCategories, setMappedCategories] = useState<{
-    [key: number | `${number}`]: string;
+    [key: string]: string;
   }>({});
   useEffect(() => {
     getThreadCategory()
