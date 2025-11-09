@@ -31,7 +31,7 @@ function SinglePost({ post }: { post: TSinglePost }) {
       className={cn(
         "block rounded-lg border  bg-card p-4 hover:border-primary/50 transition-colors",
         {
-          "border border-red-500 hover:border-red-700":
+          "bborder-l-3 border-red-500 hover:border-red-700":
             isFlagged || post.isFlagged === true,
         },
       )}

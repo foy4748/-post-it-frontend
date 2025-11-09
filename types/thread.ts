@@ -7,6 +7,7 @@ export type TThreadCategory = {
 export type TSingleThread = {
   _id: string;
   title: string;
+  isFlagged: boolean;
   content: string;
   category: TThreadCategory;
   author: IUser;

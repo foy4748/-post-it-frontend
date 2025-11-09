@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,13 +9,37 @@ import {
   ArrowRightIcon,
 } from "lucide-react";
 import { TSingleThread } from "@/types/thread";
+import { useEffect, useState } from "react";
+import { socket } from "@/lib/socket";
+import { cn } from "@/lib/utils";
 
 function ThreadCard({ thread }: { thread: TSingleThread }) {
+  const [isFlagged, setIsFlagged] = useState<boolean>(false);
+  useEffect(() => {
+    socket.connect();
+
+    // Checking Flagged Comments
+    socket.on(`explicit-thread-${thread._id}`, () => {
+      console.log(`explicit-post-${thread._id}`);
+      setIsFlagged(true);
+    });
+
+    return () => {
+      socket.disconnect();
+      console.log(`Socket for explicit-thread-${thread._id} is closed`);
+    };
+  }, []);
   return (
     <Link className="block" href={`/thread/${thread._id}`}>
       <div
         key={thread._id}
-        className="flex gap-4 rounded-lg border border-border bg-card transition-all hover:shadow-md p-6"
+        className={cn(
+          "flex gap-4 rounded-lg border border-border bg-card transition-all hover:shadow-md p-6",
+          {
+            "border-l-3 border-red-500 hover:border-red-700":
+              isFlagged || thread?.isFlagged === true,
+          },
+        )}
       >
         {/* Main content */}
         <div className="flex-1">
@@ -55,6 +80,11 @@ function ThreadCard({ thread }: { thread: TSingleThread }) {
 
             {/* Action buttons */}
             <div className="flex items-center gap-2">
+              {(isFlagged || thread?.isFlagged === true) && (
+                <Button size={"sm"} className="bg-red-500 text-white">
+                  Flagged
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="sm"
