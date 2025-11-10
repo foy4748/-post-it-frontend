@@ -1,14 +1,14 @@
 "use client";
 import { signOut } from "next-auth/react";
 import { Button } from "./ui/button";
-import { logout } from "@/actions/auth/logout";
+// import { logout } from "@/actions/auth/logout";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 export const handleLogout = async () => {
   try {
     signOut({ callbackUrl: "/" });
-    await logout();
+    // await logout();
     toast({
       title: "Logged out successfully",
     });

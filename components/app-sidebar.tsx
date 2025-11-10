@@ -36,10 +36,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
   const data = {
     user: {
-      name: String(user?.username),
+      name: String(user?.user?.username),
       email: String(user?.email),
       avatar:
-        user?.image_url || "https://i.ibb.co.com/Nnt2N26/user-placeholder.png",
+        user?.user?.picture ||
+        "https://i.ibb.co.com/Nnt2N26/user-placeholder.png",
     },
     navMain: [
       {

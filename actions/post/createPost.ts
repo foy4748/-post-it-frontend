@@ -1,5 +1,5 @@
 "use server";
-import { FormSchema } from "@/app/thread/[threadId]/create-post/components/CreatePostForm";
+import { FormSchema } from "@/app/thread/[threadId]/components/CreatePostForm";
 import { cookies } from "next/headers";
 import z from "zod";
 

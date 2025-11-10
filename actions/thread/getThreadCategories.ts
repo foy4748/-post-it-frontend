@@ -23,6 +23,9 @@ export const getThreadCategory = async () => {
     return { categoryList: d, mappedCategory };
   } catch (error) {
     console.log(error);
-    return { categoryList: [], mappedCategory: [] };
+    return {
+      categoryList: [],
+      mappedCategory: {},
+    };
   }
 };

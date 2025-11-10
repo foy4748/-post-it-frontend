@@ -1,5 +1,5 @@
 "use client";
-import { ISingleComment, INestedComment } from "@/types/comment";
+import { ISingleComment } from "@/types/comment";
 import { useEffect, useState } from "react";
 import CommentItem from "./CommentItem";
 import { useParams } from "next/navigation";
