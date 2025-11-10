@@ -1,5 +1,8 @@
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:4000", {
-  transports: ["websocket", "polling"],
-});
+export const socket = io(
+  String(process.env.NEXT_PUBLIC_API_URL).replace("/api", ""),
+  {
+    transports: ["websocket", "polling"],
+  },
+);
