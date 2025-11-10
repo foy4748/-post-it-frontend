@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ThreadList from "./components/ThreadList";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 
 async function ThreadsPage() {
   return (
@@ -12,9 +12,7 @@ async function ThreadsPage() {
             <Button className="cursor-pointer">Create a New thread +</Button>
           </Link>
         </div>
-        <Suspense fallback={<p>Loading....</p>}>
-          <ThreadList />
-        </Suspense>
+        <ThreadList />
       </div>
     </>
   );

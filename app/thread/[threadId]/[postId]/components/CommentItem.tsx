@@ -10,6 +10,8 @@ import { socket } from "@/lib/socket";
 import moment from "moment";
 import { cn } from "@/lib/utils";
 import DeleteComment from "./DeleteComment";
+import { useNotification } from "@/providers/NotificationProvider";
+import { useParams } from "next/navigation";
 
 const CommentItem = ({
   comment,
@@ -22,9 +24,11 @@ const CommentItem = ({
 }) => {
   const [replies, setReplies] = useState<ISingleComment[]>([]);
   const { data } = useSession();
+  const { threadId } = useParams();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isFlagged, setIsFlagged] = useState(false);
+  const { addNotification } = useNotification();
 
   const fetchReplies = async () => {
     console.log("Fetching replies");
@@ -43,12 +47,20 @@ const CommentItem = ({
   useEffect(() => {
     socket.connect();
     socket.on(`new-comment-${postId}-${comment._id}`, () => {
+      addNotification({
+        link: `/thread/${threadId}/${postId}`,
+        message: "New comment has been added",
+      });
       fetchReplies();
     });
 
     // Checking Flagged Comments
     socket.on(`explicit-comment-${comment._id}`, () => {
       console.log(`explicit-post-${comment._id}`);
+      addNotification({
+        link: `/thread/${postId}`,
+        message: "One of your comment has been flagged",
+      });
       setIsFlagged(true);
     });
 

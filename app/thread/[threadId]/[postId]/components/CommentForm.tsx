@@ -76,8 +76,8 @@ function CommentForm({ parentComment }: propType) {
   }
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">
-        {parentComment ? "reply" : "Comments"}
+      <h1 className="text-xl font-bold mb-8">
+        {parentComment ? "reply" : "Write a comment"}
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative">

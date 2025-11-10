@@ -18,7 +18,8 @@ async function SinglePostPage({ params }: propType) {
   // const comments: ISingleComment[] = await getComments(p.postId);
   const post: TSinglePost = await getSinglePost(p.postId);
   return (
-    <div>
+    <div className="mx-auto max-w-6xl px-8 py-4 space-y-8">
+      <h1 className="text-2xl font-bold text-gray-800">Post</h1>
       <SinglePost post={post} />
       <CommentForm />
       <Comments />

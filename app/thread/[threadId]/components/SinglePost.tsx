@@ -10,9 +10,11 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import DeletePost from "./DeletePost";
+import { useNotification } from "@/providers/NotificationProvider";
 
 function SinglePost({ post }: { post: TSinglePost }) {
   const [isFlagged, setIsFlagged] = useState<Boolean>(false);
+  const { addNotification } = useNotification();
   const { data } = useSession();
   const { threadId } = useParams();
   // console.log("from SinglePost", { post });
@@ -21,6 +23,10 @@ function SinglePost({ post }: { post: TSinglePost }) {
     socket.connect();
     socket.on(`explicit-post-${post._id}`, () => {
       console.log(`explicit-post-${post._id}`);
+      addNotification({
+        link: `/thread/${post._id}`,
+        message: "One of your post has been flagged",
+      });
       setIsFlagged(true);
     });
     return () => {

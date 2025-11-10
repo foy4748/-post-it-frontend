@@ -14,16 +14,22 @@ import { socket } from "@/lib/socket";
 import { cn } from "@/lib/utils";
 import DeleteThread from "./DeleteThread";
 import { useSession } from "next-auth/react";
+import { useNotification } from "@/providers/NotificationProvider";
 
 function ThreadCard({ thread }: { thread: TSingleThread }) {
   const { data } = useSession();
   const [isFlagged, setIsFlagged] = useState<boolean>(false);
+  const { addNotification } = useNotification();
   useEffect(() => {
     socket.connect();
 
     // Checking Flagged Comments
     socket.on(`explicit-thread-${thread._id}`, () => {
-      console.log(`explicit-post-${thread._id}`);
+      console.log(`explicit-thread-${thread._id}`);
+      addNotification({
+        link: `/thread`,
+        message: "One of your thread has been flagged",
+      });
       setIsFlagged(true);
     });
 
