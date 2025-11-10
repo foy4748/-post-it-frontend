@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export const handleLogout = async () => {
   try {
-    signOut({ callbackUrl: "/" });
+    await signOut({ callbackUrl: "/" });
     // await logout();
     toast({
       title: "Logged out successfully",

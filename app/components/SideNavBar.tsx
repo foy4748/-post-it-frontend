@@ -71,7 +71,7 @@ export function ForumSidebar() {
   };
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: "/", redirect: false });
+    await signOut({ callbackUrl: "/" });
   };
 
   if (pathname == "/") return <></>;
@@ -153,7 +153,7 @@ export function ForumSidebar() {
         {/* User Menu */}
         <div className="p-4 border-t border-border space-y-2">
           <Button
-            onClick={() => handleSignOut()}
+            onClick={handleSignOut}
             variant="ghost"
             className="w-full justify-start gap-3 text-foreground hover:bg-accent text-red-500 hover:text-red-600"
           >

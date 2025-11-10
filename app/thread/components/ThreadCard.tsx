@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import DeleteThread from "./DeleteThread";
 import { useSession } from "next-auth/react";
 import { useNotification } from "@/providers/NotificationProvider";
+import moment from "moment";
 
 function ThreadCard({ thread }: { thread: TSingleThread }) {
   const { data } = useSession();
@@ -86,7 +87,7 @@ function ThreadCard({ thread }: { thread: TSingleThread }) {
                   {thread.author.username}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {thread.createdAt}
+                  {moment(thread.createdAt).fromNow()}
                 </p>
               </div>
             </div>
