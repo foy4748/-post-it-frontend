@@ -8,6 +8,7 @@ import ThreadCard from "./ThreadCard";
 import { SearchAndFilterThread } from "./SearchAndFilterThreads";
 import { useSearchParams } from "next/navigation";
 import useCategory from "@/hooks/useCategories";
+import { useNotification } from "@/providers/NotificationProvider";
 
 // type propType = {
 //   params: Promise<{
@@ -17,6 +18,7 @@ import useCategory from "@/hooks/useCategories";
 
 export default function ThreadList() {
   const [threadData, setThreads] = useState<TSingleThread[]>([]);
+  const { addNotification } = useNotification();
   const { mappedCategories } = useCategory();
   const s = useSearchParams();
   useEffect(() => {
@@ -25,8 +27,12 @@ export default function ThreadList() {
 
   useEffect(() => {
     socket.connect();
-    socket.on(`new-thread`, () => {
+    socket.on(`new-thread`, (thread: TSingleThread) => {
       fetchThreads(s);
+      addNotification({
+        link: `/thread`,
+        message: "A new thread has been added",
+      });
     });
 
     socket.on(`delete-thread`, () => {

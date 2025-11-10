@@ -6,6 +6,7 @@ import { TSinglePost } from "@/types/post";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import SinglePost from "./SinglePost";
+import { useNotification } from "@/providers/NotificationProvider";
 
 // type propType = {
 //   params: Promise<{
@@ -16,14 +17,19 @@ import SinglePost from "./SinglePost";
 export default function PostList() {
   const p = useParams();
   const [postData, setPosts] = useState<TSinglePost[]>([]);
+  const { addNotification } = useNotification();
   useEffect(() => {
     fetchPosts();
   }, []);
 
   useEffect(() => {
     socket.connect();
-    socket.on(`new-post-${p?.threadId}`, () => {
+    socket.on(`new-post-${p?.threadId}`, (post: TSinglePost) => {
       fetchPosts();
+      addNotification({
+        link: `/thread/${post?.thread}`,
+        message: "A new post has been added",
+      });
     });
 
     socket.on(`delete-post`, () => {

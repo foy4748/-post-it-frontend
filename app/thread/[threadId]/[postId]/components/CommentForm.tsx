@@ -56,6 +56,7 @@ function CommentForm({ parentComment }: propType) {
         toast({
           title: "New comment created Successfully",
         });
+        form.reset({ content: "" });
       } else {
         toast({
           title: "FAILED to create new comment",

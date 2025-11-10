@@ -5,12 +5,14 @@ import CommentItem from "./CommentItem";
 import { useParams } from "next/navigation";
 import { socket } from "@/lib/socket";
 import { getComments } from "@/actions/comment/getComments";
+import { useNotification } from "@/providers/NotificationProvider";
 
 // function Comments({ comments }: { comments: ISingleComment[] }) {
 function Comments() {
   const [comments, setComments] = useState<ISingleComment[]>([]);
   // const [isLoading, setIsLoading] = useState(false);
-  const { postId } = useParams();
+  const { addNotification } = useNotification();
+  const { threadId, postId } = useParams();
 
   useEffect(() => {
     getComments(String(postId)).then((d: ISingleComment[]) => {
@@ -24,6 +26,10 @@ function Comments() {
       // console.log("FROM socket", data);
       getComments(String(postId)).then((d: ISingleComment[]) => {
         setComments(d);
+        addNotification({
+          link: `/thread/${threadId}/${data.post}`,
+          message: "A new comment has been added",
+        });
       });
     });
     socket.on(`delete-comment`, () => {

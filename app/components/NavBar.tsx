@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Menu, X, Bell } from "lucide-react";
 import Link from "next/link";
 import { SearchAndFilterThread } from "../thread/components/SearchAndFilterThreads";
+import { useNotification } from "@/providers/NotificationProvider";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { notifications } = useNotification();
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background">
@@ -69,7 +71,13 @@ export function Navbar() {
             {/* Notifications */}
             <button className="relative p-2 hover:bg-secondary rounded-lg transition-colors">
               <Bell className="h-5 w-5 text-foreground" />
-              <span className="absolute top-1 right-1 h-2 w-2 bg-destructive rounded-full" />
+              {notifications?.length ? (
+                <span className="absolute text-sm top-1 right-1 h-2 w-2 bg-destructive rounded-full">
+                  {notifications.length}
+                </span>
+              ) : (
+                <></>
+              )}
             </button>
 
             {/* User Profile */}

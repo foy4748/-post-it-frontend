@@ -3,6 +3,7 @@ import { IUser } from "./auth/user";
 export interface ISingleComment {
   _id: string;
   content: string;
+  post: string;
   parentComment?: string | null;
   isFlagged?: boolean;
   user: IUser;
