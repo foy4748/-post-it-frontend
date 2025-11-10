@@ -14,6 +14,7 @@ import { useSidebar } from "@/providers/SideNavBarProvider";
 import { signOut } from "next-auth/react";
 import { TThreadCategory } from "@/types/thread";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface SidebarSection {
   id: string;
@@ -24,6 +25,7 @@ interface SidebarSection {
 
 export function ForumSidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
+  const pathname = usePathname();
   const [sections, setSections] = useState<SidebarSection[]>([
     {
       id: "categories",
@@ -71,6 +73,8 @@ export function ForumSidebar() {
   const handleSignOut = async () => {
     await signOut({ callbackUrl: "/", redirect: false });
   };
+
+  if (pathname == "/") return <></>;
 
   return (
     <>

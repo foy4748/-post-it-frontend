@@ -1,7 +1,17 @@
+import { ThreadSection } from "@/components/thread-section";
+import { Header } from "@/components/header";
+import { Hero } from "@/components/hero";
+import { Features } from "@/components/features";
+import { CTA } from "@/components/cta";
+import { Footer } from "@/components/footer";
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1>Home</h1>
-    </div>
+    <main className="min-h-screen bg-background">
+      <Hero />
+      <Features />
+      <CTA />
+      <Footer />
+    </main>
   );
 }
