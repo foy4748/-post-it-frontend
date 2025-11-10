@@ -41,6 +41,10 @@ export default function LoginPageView() {
   const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      email: "test@test.com",
+      password: "TestTest$1",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {

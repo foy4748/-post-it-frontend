@@ -147,12 +147,18 @@ const CommentItem = ({
                 if (replies.length === 0) fetchReplies();
               }}
             >
-              {showReplyForm ? (
-                <ChevronDownIcon className="w-3 h-3.5 transform duration-75  rotate-180" />
+              {isLoading ? (
+                "Loading..."
               ) : (
-                <ChevronDownIcon className="w-3 h-3.5 transform duration-75  " />
+                <>
+                  {showReplyForm ? (
+                    <ChevronDownIcon className="w-3 h-3.5 transform duration-75  rotate-180" />
+                  ) : (
+                    <ChevronDownIcon className="w-3 h-3.5 transform duration-75  " />
+                  )}
+                  {showReplyForm ? "Reply" : "Show Replies"}
+                </>
               )}
-              {showReplyForm ? "Reply" : "Show Replies"}
             </Button>
           </div>
         </div>

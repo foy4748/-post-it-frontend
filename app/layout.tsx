@@ -6,6 +6,7 @@ import { Navbar } from "./components/NavBar";
 import { ForumSidebar } from "./components/SideNavBar";
 import { SidebarProvider } from "@/providers/SideNavBarProvider";
 import { Toaster } from "@/components/ui/toaster";
+import NotificationProvider from "@/providers/NotificationProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,14 +34,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextAuthSessionProvider>
-          <SidebarProvider>
-            <Navbar></Navbar>
-            <div className="flex">
-              <ForumSidebar></ForumSidebar>
-              <main className="flex-1 mt-16 md:ml-0">{children}</main>
-            </div>
-            <Toaster />
-          </SidebarProvider>
+          <NotificationProvider>
+            <SidebarProvider>
+              <Navbar></Navbar>
+              <div className="flex">
+                <ForumSidebar></ForumSidebar>
+                <main className="flex-1 mt-16 md:ml-0">{children}</main>
+              </div>
+              <Toaster />
+            </SidebarProvider>
+          </NotificationProvider>
         </NextAuthSessionProvider>
       </body>
     </html>
