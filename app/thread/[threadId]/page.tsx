@@ -1,7 +1,5 @@
 import { getSingleThread } from "@/actions/thread/getSingleThread";
-import { Button } from "@/components/ui/button";
 import { TSingleThread } from "@/types/thread";
-import Link from "next/link";
 import PostList from "./components/PostList";
 import SingleThreadCard from "./components/SingleThreadCard";
 import CreatePostForm from "./components/CreatePostForm";
