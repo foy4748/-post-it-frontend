@@ -9,9 +9,9 @@ export const createPost = async (
 ) => {
   try {
     const c = await cookies();
-    console.log({
-      authorization: String(c.get("token")?.value),
-    });
+    // console.log({
+    //   authorization: String(c.get("token")?.value),
+    // });
     const SERVER_ADDRESS = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${SERVER_ADDRESS}/post/${threadId}`, {
       method: "POST",
@@ -23,7 +23,7 @@ export const createPost = async (
       credentials: "include",
     });
     const d = await res.json();
-    console.log(d);
+    // console.log(d);
     return d;
   } catch (error) {
     console.log(error);

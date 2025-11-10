@@ -33,8 +33,8 @@ const authOptions: AuthOptions = {
           password: String(credentials?.password),
         };
         const d = await loginUser(payload);
-        console.log("From authOptions authorize");
-        console.log(d);
+        // console.log("From authOptions authorize");
+        // console.log(d);
         if (d.success) {
           // Any object returned will be saved in `user` property of the JWT
           // delete d["token"];

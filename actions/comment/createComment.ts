@@ -18,7 +18,7 @@ export const createComment = async (
       credentials: "include",
     });
     const d = await res.json();
-    console.log(d);
+    // console.log(d);
     return d;
   } catch (error) {
     console.log(error);

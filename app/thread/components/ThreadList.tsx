@@ -45,7 +45,7 @@ export default function ThreadList() {
     const queryStr = searchParamsObj.toString();
     console.log("queryStr", queryStr);
     getThreads(queryStr).then((d: TSingleThread[]) => {
-      console.log(d);
+      // console.log(d);
       setThreads(d);
     });
   };
@@ -74,7 +74,9 @@ export default function ThreadList() {
 
         {/* Thread list */}
         <div className="space-y-4 mb-8">
-          {threadData?.map((thread) => <ThreadCard thread={thread} />)}
+          {threadData?.map((thread) => (
+            <ThreadCard key={thread._id} thread={thread} />
+          ))}
         </div>
 
         {/* Reply input */}

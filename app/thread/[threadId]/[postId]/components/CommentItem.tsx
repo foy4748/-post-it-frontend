@@ -79,9 +79,9 @@ const CommentItem = ({
           }),
         },
       );
-      const result = await res.json();
-      console.log(result);
-      // fetchReplies(); // Refresh replies
+      await res.json();
+      // console.log(result);
+      fetchReplies(); // Refresh replies
     }
     setShowReplyForm(false);
   };

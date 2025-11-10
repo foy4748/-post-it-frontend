@@ -21,7 +21,7 @@ import { useSession } from "next-auth/react";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: d } = useSession();
   const { user } = d || {};
-  console.log("user", user);
+  // console.log("user", user);
   const adminRoutes = {
     title: "Admin Dashboard",
     url: "#",
@@ -95,7 +95,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
   if (user?.user?.role == "admin") {
     data.navMain.push(adminRoutes);
-    console.log(user);
+    // console.log(user);
   }
   return (
     <Sidebar collapsible="icon" {...props}>

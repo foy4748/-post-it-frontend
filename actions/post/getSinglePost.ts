@@ -1,16 +1,15 @@
 "use server";
 
-export const getSingleThread = async (threadId: string) => {
+export const getSinglePost = async (postId: string) => {
   try {
     const SERVER_ADDRESS = process.env.NEXT_PUBLIC_API_URL;
-    const res = await fetch(`${SERVER_ADDRESS}/thread/${threadId}`, {
+    const res = await fetch(`${SERVER_ADDRESS}/post/single-post/${postId}`, {
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
     });
     const d = await res.json();
-    // console.log(d);
     return d;
   } catch (error) {
     console.log(error);

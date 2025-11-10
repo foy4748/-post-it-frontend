@@ -14,7 +14,7 @@ export const registerUser = async (data: TUserRegisterPayload) => {
       credentials: "include",
     });
     const d = await res.json();
-    console.log(d);
+    // console.log(d);
     if (d.status == 201) {
       const ck = await cookies();
       ck.set("token", String(d.data.token), {
