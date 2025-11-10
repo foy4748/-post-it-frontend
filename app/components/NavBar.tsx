@@ -69,14 +69,29 @@ export function Navbar() {
             </div>
 
             {/* Notifications */}
+            {/* 
             <button className="relative p-2 hover:bg-secondary rounded-lg transition-colors">
               <Bell className="h-5 w-5 text-foreground" />
               {notifications?.length ? (
-                <span className="absolute text-sm top-1 right-1 h-2 w-2 bg-destructive rounded-full">
-                  {notifications.length}
-                </span>
+                <>
+                  <div className="absolute text-xs top-0 right-1 h-2 w-2 bg-destructive rounded-full text-white p-2">
+                    <p>{notifications.length}</p>
+                  </div>
+                </>
               ) : (
                 <></>
+              )}
+            </button>
+			*/}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-full hover:bg-gray-100 relative"
+            >
+              <span className="text-2xl">🔔</span>
+              {notifications?.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {notifications?.length}
+                </span>
               )}
             </button>
 

@@ -5,6 +5,7 @@ import { TrashIcon } from "lucide-react";
 
 function DeleteComment({ comment }: { comment: ISingleComment }) {
   const handleDelete = async () => {
+    console.log("TO BE DELETED", { commment: comment?._id });
     await deleteComment(comment._id);
   };
   return (

@@ -23,7 +23,7 @@ function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<TNotification[]>([]);
   const addNotification = (notification: TNotification) => {
-    setNotifications((prev) => [...prev, notification]);
+    setNotifications((prev) => [notification, ...prev]);
   };
   const clearNotification = () => setNotifications([]);
   return (
