@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blueit - Social Discussion Platform
 
-## Getting Started
+[![Demo Video](https://img.shields.io/badge/📺-Watch%20Demo-red)](https://drive.google.com/file/d/1v4YtMh8NTrZBBbNYYig39RhVngTQQJuK/view?usp=sharing)
 
-First, run the development server:
+A modern Reddit-inspired social discussion platform built with Next.js, featuring real-time interactions and a sleek UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend Framework
+- **Next.js 16** - React framework with App Router
+- **React 19** - Latest React with new features
+- **TypeScript** - Type-safe development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### UI & Styling
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **Radix UI** - Headless UI components (Dialog, Dropdown, Tooltip, etc.)
+- **shadcn/ui** - Re-usable components built with Radix
+- **Lucide React** - Beautiful icons
+- **VAUL** - Bottom drawer component
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Forms & Validation
+- **React Hook Form** - Form management
+- **Zod** - Schema validation
+- **HookForm Resolvers** - Zod integration
 
-## Learn More
+### Authentication & State
+- **NextAuth.js** - Authentication solution
+- **JWT Decode** - Token handling
 
-To learn more about Next.js, take a look at the following resources:
+### Real-time Features
+- **Socket.io Client** - Real-time WebSocket connections
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Utilities
+- **clsx & tailwind-merge** - Conditional CSS classes
+- **Moment.js** - Date formatting
+- **Next.js Top Loader** - Page loading indicators
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Local Development
 
-## Deploy on Vercel
+### Prerequisites
+- Node.js 18+ 
+- pnpm
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

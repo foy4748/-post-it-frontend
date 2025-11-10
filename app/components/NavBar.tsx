@@ -164,28 +164,28 @@ export function Navbar() {
         {isOpen && (
           <div className="md:hidden border-t border-border py-4 px-2 space-y-2">
             <Link
-              href="#"
+              href="/"
               className="block px-4 py-2 text-sm text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
-              Discussions
+              Home
             </Link>
             <Link
-              href="#"
+              href="/thread"
               className="block px-4 py-2 text-sm text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
-              Categories
+              Threads
             </Link>
             <Link
-              href="#"
+              href="/auth/login"
               className="block px-4 py-2 text-sm text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
-              Trending
+              Login
             </Link>
             <Link
-              href="#"
+              href="/auth/register"
               className="block px-4 py-2 text-sm text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
-              Help
+              Register
             </Link>
           </div>
         )}
