@@ -114,9 +114,7 @@ export function Navbar() {
                       notifications.map((notification, idx) => (
                         <div
                           key={idx}
-                          className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
-                            notification.read ? "opacity-60" : "bg-blue-50"
-                          }`}
+                          className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer`}
                           // onClick={() => markAsRead(notification.id)}
                         >
                           <div className="flex items-start space-x-2">
